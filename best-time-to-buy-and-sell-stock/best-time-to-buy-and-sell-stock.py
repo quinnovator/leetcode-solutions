@@ -1,13 +1,19 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        # Min val only matters at each point of the list, not retroactive
-        minVal = float('inf')
-        maxProfit = 0
-        
-        for x in range(len(prices)):
-            if (prices[x] < minVal):
-                minVal = prices[x]
-            elif (prices[x] - minVal > maxProfit):
-                maxProfit = prices[x] - minVal
-                
-        return maxProfit
+        # Check if the list of prices is empty or not
+        if not prices:
+            return 0
+        
+        currentLow = 0
+        profit = 0
+        
+        # Constantly updates index of lowest element, updates profit with each pass
+        x = 1
+        while x < len(prices):
+            if prices[x] - prices[currentLow] > profit:
+                profit = prices[x] - prices[currentLow]
+            elif prices[x] < prices[currentLow]:
+                currentLow = x
+            x += 1
+        
+        return(profit)
